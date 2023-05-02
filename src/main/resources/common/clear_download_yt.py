@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 
 def download_video(soup):
-    def reaplce_path(path: str) -> str:
+    def replace_path(path: str) -> str:
         path = path.replace('#', '%23')
         return path
 
@@ -15,7 +15,7 @@ def download_video(soup):
                 return video_file
         return ''
 
-    vstavka_url = {
+    replace_url = {
         'vk': "https://vk.com/video{}",
         'vimeo': "https://vimeo.com/{}",
         'youtube': "https://youtu.be/{}"
@@ -39,18 +39,17 @@ def download_video(soup):
         os.makedirs('video', exist_ok=True)
         os.makedirs('poster', exist_ok=True)
 
-        url_download = vstavka_url[tg[i]['data-video-service']].format(video_id)
+        url_download = replace_url[tg[i]['data-video-service']].format(video_id)
         with YoutubeDL(ydl_opts) as dl:
             dl.download([url_download])
 
         poster_files = os.listdir('poster')
         video_files = os.listdir('video')
 
-        poster = reaplce_path(find_files(video_id, poster_files))
-        video = reaplce_path(find_files(video_id, video_files))
+        poster = replace_path(find_files(video_id, poster_files))
+        video = replace_path(find_files(video_id, video_files))
 
         if video != '':
-            # tg[i].replace_with(vstavka.format(poster, video))
             video_vst = soup.new_tag(
                 "video",
                 attrs={
