@@ -9,15 +9,12 @@ def download_video(soup):
         path = path.replace('#', '%23')
         return path
 
-
     def find_files(id_yt, video_files):
         for video_file in video_files:
             if id_yt in video_file:
                 return video_file
         return ''
 
-    # vstavka = """\n<video controls="" poster="poster/{}" style="height: 100%; width: 100%; object-fit: contain">
-# <source src="video/{}"></video>"""
     vstavka_url = {
         'vk': "https://vk.com/video{}",
         'vimeo': "https://vimeo.com/{}",
@@ -97,6 +94,8 @@ if __name__ == "__main__":
     data = delete_class(data, "propaganda")
     data = delete_class(data, "icon--entry_quote")
     data = delete_class(data, "content-header__item--listen")
+    data = delete_class(data, "block-hidden")
+    data = delete_class(data, "quiz__panel")
     data = delete_editorial(data)
 
     with open('index.html', 'w', encoding='utf-8') as f:
